@@ -17,7 +17,6 @@ pipeline Exercise1_Airports {
 
     block AirportsTableInterpreter oftype TableInterpreter {
         header: true;
-        
         columns: [
             "Lfd. Nummer" oftype integer,
             "Name des Flughafens" oftype text,
@@ -25,10 +24,10 @@ pipeline Exercise1_Airports {
             "Land" oftype text,
             "IATA" oftype text,
             "ICAO" oftype text,
-            "Latitude" oftype integer,
+            "Latitude" oftype decimal,
             "Longitude" oftype decimal,
             "Altitude" oftype integer,
-            "Zeitzone" oftype integer,
+            "Zeitzone" oftype decimal,
             "DST" oftype text,
             "Zeitzonen-Datenbank" oftype text,
             "geo_punkt" oftype text
