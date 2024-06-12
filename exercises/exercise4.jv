@@ -1,0 +1,91 @@
+pipeline Exercise4_Trees {
+
+    TemperatureExtractor
+    -> TemperatureZipInterpreter 
+    -> TemperatureDataFilePicker
+    -> TemperatureTextFileInterpreter;
+
+
+    TemperatureTextFileInterpreter
+        -> TemperatureCSVInterpreter
+        -> TemperatureSequenceWriter
+        -> TemperatureWriter
+        -> TemperatureDataRangeSelector
+        -> TemperatureTableInterpreter
+        -> TemperatureTransformer
+        -> BatteryTemperatureTableTransformer
+        -> TemperatureLoader;
+
+    
+    block TemperatureExtractor oftype HttpExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    block TemperatureTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "id" oftype PositiveIntegersValue,
+            "producer" oftype text,
+            "model" oftype text,
+            "month" oftype integer,
+            "temperature" oftype decimal,
+            "battery_temperature" oftype decimal
+        ];
+    }
+
+    block TemperatureZipInterpreter oftype ArchiveInterpreter { archiveType: "zip";}
+
+    block TemperatureCSVInterpreter oftype CSVInterpreter {
+       delimiter: ";";
+    }
+
+    block TemperatureDataFilePicker oftype FilePicker { path: "/data.csv";}
+
+    block TemperatureTextFileInterpreter oftype TextFileInterpreter {}
+    
+    block TemperatureSequenceWriter oftype CellWriter {
+        at: range A1:E1;
+        write: ["id", "producer", "model", "month", "temperature"];
+    }
+
+    block BatteryTemperatureTableTransformer oftype TableTransformer {
+        inputColumns: ["battery_temperature"];
+        outputColumn: "battery_temperature";
+        use: ConvertTemperature;
+    }
+
+    block TemperatureWriter oftype CellWriter {
+        at: cell J1;
+        write: ["battery_temperature"];
+    }
+
+    block TemperatureDataRangeSelector oftype CellRangeSelector {
+        select: range A1:J*;
+    }
+
+    block TemperatureLoader oftype SQLiteLoader {
+        table: "temperatures";
+        file: "./temperatures.sqlite";
+    }
+
+    block TemperatureTransformer oftype TableTransformer {
+        inputColumns: ["temperature"];
+        outputColumn: "temperature";
+        use: ConvertTemperature;
+    }
+
+    valuetype PositiveIntegersValue oftype integer {
+        constraints: [ PositiveIntValue ];
+    }
+    
+    constraint PositiveIntValue oftype RangeConstraint {
+        lowerBound: 1;
+    }
+
+     transform ConvertTemperature {
+        from Celsius oftype decimal;
+        to Fahrenheit oftype decimal;
+        Fahrenheit : (Celsius * 9/5) + 32;
+    }
+    
+}
