@@ -18,6 +18,12 @@ jobs:
       with:
         python-version: '3.11'
 
+    - name: Set up Kaggle credentials
+      run: |
+          mkdir -p ~/.kaggle
+          echo "{\"username\":\"${{ secrets.KAGGLE_USER }}\",\"key\":\"${{ secrets.KAGGLE_KEY }}\"}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json    
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
