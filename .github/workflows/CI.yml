@@ -29,4 +29,4 @@ jobs:
 #        fi
 
     - name: Run tests
-      run: bash tests.sh
+      run: bash project/tests.sh
