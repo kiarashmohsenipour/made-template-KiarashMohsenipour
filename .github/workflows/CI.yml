@@ -18,15 +18,15 @@ jobs:
       with:
         python-version: '3.8'
 
-#    - name: Install dependencies
-#      run: |
-#        if [ -f requirements.txt ]; then
-#          echo "requirements.txt found, installing dependencies..."
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-#        else
-#          echo "No requirements.txt found, skipping dependency installation."
-#        fi
+    - name: Install dependencies
+      run: |
+        if [ -f requirements.txt ]; then
+          echo "requirements.txt found, installing dependencies..."
+          python -m pip install --upgrade pip
+          pip install -r ./requirements.txt
+        else
+          echo "No requirements.txt found, skipping dependency installation."
+        fi
 
     - name: Run tests
       run: bash project/tests.sh
