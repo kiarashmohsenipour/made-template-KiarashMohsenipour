@@ -1,8 +1,12 @@
+import os.path
+
 from pipeline import *
 
 
 def test_project5():
     data_path = './data'
+    # data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+
     output_file = os.path.join(data_path, 'merged_data.csv')
 
     temperature = temperature_data

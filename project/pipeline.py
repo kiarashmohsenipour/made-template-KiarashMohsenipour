@@ -8,7 +8,8 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 
 try:
     # Define paths
-    data_path = './data'
+    # data_path = './data'
+    data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
     db_name = 'temperature_inflation.db'
     # Kaggle dataset identifiers
     URL_1 = "adamwurdits/finland-norway-and-sweden-weather-data-20152019"
@@ -26,7 +27,8 @@ try:
     temperature_data = pd.read_csv(os.path.join(data_path, csv_files[0]))
     inflation_data = pd.read_csv(os.path.join(data_path, csv_files[1]))
 
-    conn = sqlite3.connect('../data/temperature_inflation.db')
+    path = os.path.join(data_path, 'temperature_inflation.db')
+    conn = sqlite3.connect(path)
 
     temperature_data.to_sql('temperature_data', conn, if_exists='replace', index=False)
 
