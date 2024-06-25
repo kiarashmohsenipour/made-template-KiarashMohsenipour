@@ -38,4 +38,6 @@ jobs:
       run: ls -R data/
 
     - name: Run tests
-      run: bash project/tests.sh
+      run: cd project
+            chmod +x tests.sh
+            ./tests.sh
