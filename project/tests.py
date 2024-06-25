@@ -41,7 +41,7 @@ from pipeline import temperature_data, inflation_data
 class TestProject5(unittest.TestCase):
 
     def setUp(self):
-        self.data_path = os.path.join('data')
+        self.data_path = os.path.join(os.path.dirname(__file__), 'data')
         self.output_file = os.path.join(self.data_path, 'merged_data.csv')
         self.temperature = temperature_data
         self.inflation = inflation_data
