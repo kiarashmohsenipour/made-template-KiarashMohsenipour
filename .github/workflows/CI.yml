@@ -29,5 +29,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r ./requirements.txt
 
+    - name: Download Kaggle datasets
+      run: |
+        kaggle datasets download -d adamwurdits/finland-norway-and-sweden-weather-data-20152019 -p data/ --unzip
+        kaggle datasets download -d sazidthe1/global-inflation-data -p data/ --unzip
+
+    - name: List downloaded files
+      run: ls -R data/
+
     - name: Run tests
       run: bash project/tests.sh
