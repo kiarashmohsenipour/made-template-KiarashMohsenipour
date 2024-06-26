@@ -37,10 +37,7 @@ try:
     inflation_data_filtered = inflation_data_melted[inflation_data_melted['year'].astype(int).between(2015, 2019)]
 
     # Merge the datasets on country and year
-    temperature_data['country'] = temperature_data['country'].str.strip()  # Remove any leading/trailing spaces
-
-    # inflation_data_filtered['country_name'] = inflation_data_filtered[
-    #     'country_name'].str.strip()  # Remove any leading/trailing spaces
+    temperature_data['country'] = temperature_data['country'].str.strip()
 
     # # Rename columns for consistency
     temperature_data.rename(columns={'country': 'country_name'}, inplace=True)
@@ -55,7 +52,6 @@ try:
                            how='inner',
                            left_on=['country_name', 'year'],
                            right_on=['country_name', 'year'])
-
 
     merged_csv_path = os.path.join(data_path, 'merged_data.csv')
     merged_data.to_csv(merged_csv_path, index=False)
