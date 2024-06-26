@@ -56,7 +56,6 @@ try:
                            left_on=['country_name', 'year'],
                            right_on=['country_name', 'year'])
 
-    print(merged_data.columns)
 
     merged_csv_path = os.path.join(data_path, 'merged_data.csv')
     merged_data.to_csv(merged_csv_path, index=False)
