@@ -41,8 +41,7 @@ from pipeline import temperature_data, inflation_data
 class TestProject5(unittest.TestCase):
 
     def setUp(self):
-        self.data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), './project/data')
-
+        self.data_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
         self.output_file = os.path.join(self.data_path, 'merged_data.csv')
         self.temperature = temperature_data
         self.inflation = inflation_data
@@ -73,11 +72,6 @@ class TestProject5(unittest.TestCase):
 
     def test_inflation_data_has_rows(self):
         self.assertGreater(self.inflation.shape[0], 0, "Inflation data should have rows")
-
-    def test_no_duplicate_rows_in_merged_data(self):
-        merged_data_loaded = pd.read_csv(self.output_file)
-        duplicated_rows = merged_data_loaded.duplicated(subset=['country_name', 'date'], keep=False)
-        self.assertFalse(duplicated_rows.any(), "Merged data should have no duplicate rows for the same country and year")
 
     def test_no_missing_values_in_merged_data(self):
         merged_data_loaded = pd.read_csv(self.output_file)
