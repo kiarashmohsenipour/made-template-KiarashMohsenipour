@@ -1,0 +1,67 @@
+pipeline Exercise5 {
+
+    BusExtractor
+    -> BusZipInterpreter
+    -> BusDataFilePicker
+    -> BusTextFileInterpreter;
+
+
+    BusTextFileInterpreter
+        -> BusCSVInterpreter
+        -> BusTableInterpreter
+        -> BusLoader;
+
+
+    block BusExtractor oftype HttpExtractor {
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+    }
+
+    block BusTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+          "stop_id" oftype integer,
+          "stop_name" oftype text,
+          "stop_lat" oftype geo,
+          "stop_lon" oftype geo,
+          "zone_id" oftype int_1645
+        ];
+    }
+
+    block BusZipInterpreter oftype ArchiveInterpreter { archiveType: "zip";}
+
+    block BusCSVInterpreter oftype CSVInterpreter {
+       enclosing: '"';
+    }
+
+    block BusDataFilePicker oftype FilePicker { path: "/stops.txt";}
+
+    block BusTextFileInterpreter oftype TextFileInterpreter {}
+
+    block BusLoader oftype SQLiteLoader {
+        table: "stops";
+        file: "./gtfs.sqlite";
+    }
+
+    valuetype int_1645 oftype integer {
+        constraints: [ value1645 ];
+    }
+
+    constraint value1645 oftype RangeConstraint {
+        lowerBound: 1645;
+        upperBound: 1645;
+    }
+
+    constraint GeoReg oftype RegexConstraint {
+        regex: /^(\d{1,3}\.\d+),\s*(\d{1,3}\.\d+)$/;
+    }
+
+    valuetype geo oftype decimal {
+        constraints: [valueGeo];
+    }
+
+    constraint valueGeo oftype RangeConstraint {
+        lowerBound: -90;
+        upperBound: 90;
+    }
+
+}
