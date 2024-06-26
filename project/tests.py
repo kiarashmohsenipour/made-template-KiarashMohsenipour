@@ -54,22 +54,22 @@ class TestProject5(unittest.TestCase):
     def test_data_path_is_not_empty(self):
         self.assertTrue(os.listdir(data_path), "Data path is empty.")
 
-    # def test_output_file_exists(self):
-    #     self.assertTrue(os.path.exists(output_file), "Output file does not exist.")
+    def test_output_file_exists(self):
+        self.assertTrue(os.path.exists(output_file), "Output file does not exist.")
 
-    # def test_merged_data_not_empty(self):
-    #     merged_data_loaded = pd.read_csv(output_file)
-    #     self.assertFalse(merged_data_loaded.empty, "Merged data is empty.")
+    def test_merged_data_not_empty(self):
+        merged_data_loaded = pd.read_csv(output_file)
+        self.assertFalse(merged_data_loaded.empty, "Merged data is empty.")
 
-    # def test_merged_data_columns(self):
-    #     merged_data_loaded = pd.read_csv(output_file)
-    #     self.assertIn('country_name', merged_data_loaded.columns,
-    #                   "Expected column 'country_name' not found in merged data.")
-    #     self.assertIn('inflation_rate', merged_data_loaded.columns,
-    #                   "Expected column 'inflation_rate' not found in merged data.")
-    #     expected_columns = ['country_name', 'year', 'inflation_rate']
-    #     for column in expected_columns:
-    #         self.assertIn(column, merged_data_loaded.columns, f"Expected column '{column}' not found in merged data.")
+    def test_merged_data_columns(self):
+        merged_data_loaded = pd.read_csv(output_file)
+        self.assertIn('country_name', merged_data_loaded.columns,
+                      "Expected column 'country_name' not found in merged data.")
+        self.assertIn('inflation_rate', merged_data_loaded.columns,
+                      "Expected column 'inflation_rate' not found in merged data.")
+        expected_columns = ['country_name', 'year', 'inflation_rate']
+        for column in expected_columns:
+            self.assertIn(column, merged_data_loaded.columns, f"Expected column '{column}' not found in merged data.")
 
     def test_temperature_data_has_rows(self):
         self.assertGreater(self.temperature.shape[0], 0, "Weather data should have rows")
@@ -77,12 +77,12 @@ class TestProject5(unittest.TestCase):
     def test_inflation_data_has_rows(self):
         self.assertGreater(self.inflation.shape[0], 0, "Inflation data should have rows")
 
-    # def test_no_missing_values_in_merged_data(self):
-    #     merged_data_loaded = pd.read_csv(output_file)
-    #     self.assertFalse(
-    #         merged_data_loaded[['country_name', 'year', 'inflation_rate']].isnull().any().any(),
-    #         "Merged data should have no missing values in critical columns"
-    #     )
+    def test_no_missing_values_in_merged_data(self):
+        merged_data_loaded = pd.read_csv(output_file)
+        self.assertFalse(
+            merged_data_loaded[['country_name', 'year', 'inflation_rate']].isnull().any().any(),
+            "Merged data should have no missing values in critical columns"
+        )
 
 
 if __name__ == '__main__':

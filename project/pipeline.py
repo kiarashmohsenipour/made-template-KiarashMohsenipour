@@ -29,6 +29,7 @@ try:
     temperature_data['date'] = pd.to_datetime(temperature_data['date'], format='%m/%d/%Y')
     temperature_data['date'] = temperature_data['date'].dt.year
 
+
     # Reshape inflation data
     inflation_data_melted = inflation_data.melt(id_vars=["country_name", "indicator_name"],
                                                 var_name="year",
@@ -43,23 +44,24 @@ try:
     #     'country_name'].str.strip()  # Remove any leading/trailing spaces
 
     # # Rename columns for consistency
-    temperature_data.rename(columns={'country': 'country_name'}, inplace=True)
-    temperature_data.rename(columns={'date': 'year'}, inplace=True)
+    # temperature_data.rename(columns={'country': 'country_name'}, inplace=True)
+    # temperature_data.rename(columns={'date': 'year'}, inplace=True)
 
     # # Convert year columns to integer
-    temperature_data['year'] = temperature_data['year'].astype(int)
+    temperature_data['date'] = temperature_data['date'].astype(int)
     inflation_data_filtered.loc[:, 'year'] = inflation_data_filtered['year'].astype(int)
 
     # Merge datasets
     merged_data = pd.merge(temperature_data, inflation_data_filtered,
                            how='inner',
-                           left_on=['country_name', 'year'],
+                           left_on=['country', 'date'],
                            right_on=['country_name', 'year'])
 
-    print(merged_data.columns)
+    # print(merged_data.columns)
 
     merged_csv_path = os.path.join(data_path, 'merged_data.csv')
     merged_data.to_csv(merged_csv_path, index=False)
+
 
     path = os.path.join(data_path, 'temperature_inflation.db')
     conn = sqlite3.connect(path)
