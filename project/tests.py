@@ -49,6 +49,7 @@ class TestProject5(unittest.TestCase):
         self.inflation = inflation_data
 
     def test_data_path_exists(self):
+        print(os.path.exists("--------------" + output_file))
         self.assertTrue(os.path.exists(data_path), "Data path does not exist.")
 
     def test_data_path_is_not_empty(self):

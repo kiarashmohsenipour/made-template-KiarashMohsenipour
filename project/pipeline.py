@@ -26,6 +26,9 @@ try:
     inflation_data = pd.read_csv(os.path.join(data_path, csv_files[0]))
     temperature_data = pd.read_csv(os.path.join(data_path, csv_files[1]))
 
+    # print(temperature_data.columns)
+    # print(inflation_data.columns)
+
     temperature_data['date'] = pd.to_datetime(temperature_data['date'], format='%m/%d/%Y')
     temperature_data['date'] = temperature_data['date'].dt.year
 
@@ -60,8 +63,6 @@ try:
     # print(merged_data.columns)
 
     merged_csv_path = os.path.join(data_path, 'merged_data.csv')
-    merged_data.to_csv(merged_csv_path, index=False)
-
 
     path = os.path.join(data_path, 'temperature_inflation.db')
     conn = sqlite3.connect(path)
